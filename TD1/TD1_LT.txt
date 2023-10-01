@@ -1,0 +1,161 @@
+TD1 : 
+
+Ex 1.5 : | 
+-------  |
+
+ simpl0(e) :=   
+ 
+		         ⊕  
+           	    / \
+     simpl0    C   e   =  e                      (1)
+	           |
+	           0 
+	       
+		         ⊗  
+		        / \	  	    C
+     simpl0    C   e    =   |  					 (2)
+	           |	  	    0 
+	           0
+	  
+     simpl0 e = e  (dans tous les autres cas)    (3)
+
+    
+
+ simpl(e) := 
+
+            C           C   C
+      simpl |  = simpl0 | = |   (d'apres la definition de simpl0)   (4)
+            0           0   0 
+                 ⊕                       ⊕                      
+      simpl     / \     = simpl0        / \                       
+              e1   e2             simpl e1  simpl e2           		(5)
+                                                                  
+                 ⊖                        ⊖
+      simpl     / \     =  simpl0        / \				  	 	(6)
+              e1   e2              simpl e1  simpl e2
+
+
+                 ⊗                       ⊗                         
+      simpl     / \     = simpl0        / \                	   		(7)
+              e1   e2            simpl e1  simpl e2                
+               
+
+    
+
+
+
+        
+Ex 1.6: | 
+--------|
+
+
+Soit P0 la propriete qui suit: 
+P0(e) : Pour toute expression e de aexp,l'évaluation de toute expression e de aexp
+       rend la même chose que l'évaluation de simpl0 e.
+       i.e: eval (simpl0 e) = eval e 
+
+
+Montrons la propriete P0 sur simpl0 par recurrence structurelle :
+ 
+Soit e2 une expression de aexp. 
+
+1er cas :	             ⊕  
+---------	        	/ \
+ e est de la forme     C   e2    
+			           |
+			           0 
+
+Hypothese de recurrence : eval (simpl0(0 ⊕ e2)) = eval e2  (1)
+			    ⊕	        
+eval (simpl0   / \   ) =  eval e2 = eval 0 + eval e2 
+			  C  e2                
+			  |                ⊕  
+			  0 	 	      / \
+					 =  eval C  e2    
+							 |		
+							 0 
+
+
+Donc :  On a montre que pour toute expression e de aexp, eval (simpl0 0 ⊕ e) = eval (0 ⊕ e)
+					       
+2eme cas : 			     ⊗ 
+--------		        / \
+ e est de la forme     C   e2    
+			           |
+			           0 
+		
+			   
+Hypothese de recurrence : eval simpl0(0 ⊗ e2) = eval 0 (2)
+
+		   		⊗	        		   C
+eval simpl0    / \   = eval e2 = (eval |)  *  (eval e2 )
+			  C   e2                   0
+			  |		   		C
+		      0	     = eval |
+					   		0 
+
+Donc : On a montre que: ∀e de aexp, eval (simpl0 0 ⊗ e) = eval (0 ⊗ e) 
+
+
+
+3eme cas:  e != {0 ⊕ e2 ; 0 ⊗ e2}    (cas Trivial)
+---------
+Hypothese de recurrence: eval(simpl0 e) = eval e   (3)
+
+eval (simpl0 e) =  eval e    (d'apres la definition de simpl0). 
+
+Donc : ∀e de aexp,  eval (simpl0 e) =  eval e
+ 
+Conclusion : La propriete P0 est a ete demontree par recurrence structurelle. 
+
+
+
+
+Soit P la propriete qui suit: 
+P(e) : Pour toute expression e de aexp,l'évaluation de toute expression e de aexp
+       rend la même chose que l'évaluation de simpl e.
+       i.e: eval (simpl e) = eval e 
+
+1er cas : 
+--------	          C                                             
+e est de la forme     |  .          
+                      0
+                                      C		  	C
+Hypothese de recurrence : eval (simpl |) = eval |      
+	                   			      0		  	0  
+		                          
+	   		 C        		     	   C     	    C
+ eval (simpl | ) = eval (simpl0 (simpl | )) =  eval |     (3) et (4)     
+ 	   		 0 				     	   0      		0 
+	     															C		  C
+Donc : on a montre que pour toute expression e de aexp, eval (simpl |) = eval |	     
+	     															0		  0
+	     
+2eme cas  :	             ⊕  
+---------	        	/ \
+ e est de la forme    e1  e2    
+ 
+ Hypotheses de recurrence : eval (simpl e1) = eval e1 
+ 							eval (simpl e2) = eval e2
+
+        	   ⊕                          ⊕
+ eval simpl   / \   = eval simpl0       /   \          ---------
+        	e1  e2         		simpl e1   simpl e2 			|
+			          											|	d'apres la definition de simpl0 
+                      = eval (simpl e1) + eval (simpl e2)   <----
+
+                      = eval e1 + eval e2 
+
+                          	   ⊕
+                     = eval   / \ 
+                        	 e1 e2
+
+(Meme demonstration pour le cas ou e est de la forme e1 ⊗ e2 ou e1 ⊖ e2) 
+
+Donc : P(e1 ⊕ e2) et P(e1 ⊗ e2) et P(e1 ⊖ e2) sont verifiees.
+
+
+CONCLUSION: l'évaluation de toute expression e de aexp
+----------- rend la même chose que l'évaluation de simpl e.
+
+  	       
